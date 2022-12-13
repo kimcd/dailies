@@ -2,7 +2,8 @@
 :ID:       c0eacec4-f6cd-4c01-9b18-0d9a9cdf7319
 :END:
 #+title: 2022-12-07
-#+STARTUP: overview  # keeps trees folded upon startup
+#+startup: overview
+#+setupfile: ~/org-roam/my_standard_latex_export.org
 
 * Today is [2022-12-07 Wed]
 * This is an example of a typical worklog for GVSC

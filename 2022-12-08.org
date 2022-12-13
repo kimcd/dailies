@@ -2,3 +2,5 @@
 :ID:       bc4ef9c2-da63-4f83-b0d5-f9aba995e49c
 :END:
 #+title: 2022-12-08
+#+startup: overview
+#+setupfile: ~/org-roam/my_standard_latex_export.org
