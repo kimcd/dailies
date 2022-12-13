@@ -2,12 +2,11 @@
 :ID:       b4642972-a1dd-428a-b2a7-c3d2d38d26fa
 :END:
 #+title: 2022-12-11
-#+author: Chris Kim
-#+EXPORT_FILE_NAME: test
-#+SETUPFILE: ~/org-roam/my_standard_latex_export.org
+#+startup: overview
+#+setupfile: ~/org-roam/my_standard_latex_export.org
+#+LaTeX: \newpage
 
-  #+LaTeX: \newpage
-* Chapter 1
+* Results  
 In order to quantify the efficacy of our path planner, we compute the intersections between our path planner and the print object. The print paths are given by a set of cartesian points in \mathbb{R}^{3}. In order to compute the intersections of a point in a 3D object, we must voxelize the object. However, in order to voxelize the object, one must be able to determine whether a voxel vertex resides within the object. Because the object is non-convex, we first decompose the object into a collection of convex polygons using V-HACD. Subsequently, we take each polygon face in Hessian Normal form and determine if a voxel vertex resides within the half-space. For a voxel whose 8 vertices reside within the negative half-space if a convex polygon, we say that the voxel resides within the object. Finally, we can find the intersections between the print paths and the voxelized print object. Subsequently, we can quantify the overlap.
 In figure
 

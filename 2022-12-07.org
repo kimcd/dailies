@@ -4,6 +4,7 @@
 #+title: 2022-12-07
 #+startup: overview
 #+setupfile: ~/org-roam/my_standard_latex_export.org
+#+latex: \newpage
 
 * Today is [2022-12-07 Wed]
 * This is an example of a typical worklog for GVSC

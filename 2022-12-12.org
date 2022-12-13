@@ -4,6 +4,7 @@
 #+title: 2022-12-12
 #+startup: overview
 #+setupfile: ~/org-roam/my_standard_latex_export.org
+#+latex: \newpage 
 
 * org-roam
 Working on generating a good workflow.
@@ -12,3 +13,5 @@ Working on generating a good workflow.
 Working on the thesis results section. [[id:b4642972-a1dd-428a-b2a7-c3d2d38d26fa][2022-12-11]]. 
 
 * this is a note   
+* TODO get something something something ... 
+* TODO give it to the blah blah ... 
