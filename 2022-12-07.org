@@ -2,6 +2,7 @@
 :ID:       c0eacec4-f6cd-4c01-9b18-0d9a9cdf7319
 :END:
 #+title: 2022-12-07
+#+STARTUP: overview  # keeps trees folded upon startup
 
 * Today is [2022-12-07 Wed]
 * This is an example of a typical worklog for GVSC
