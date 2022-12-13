@@ -1,0 +1,10 @@
+:PROPERTIES:
+:ID:       d0a5e622-b05f-4d67-a63a-4e37dc56dde1
+:END:
+#+title: 2022-12-12
+
+* org-roam
+Working on generating a good workflow.
+
+* Thesis Results Section 
+Working on the thesis results section. [[id:b4642972-a1dd-428a-b2a7-c3d2d38d26fa][2022-12-11]]. 

@@ -1,0 +1,94 @@
+:PROPERTIES:
+:ID:       c0eacec4-f6cd-4c01-9b18-0d9a9cdf7319
+:END:
+#+title: 2022-12-07
+
+* Today is [2022-12-07 Wed]
+* This is an example of a typical worklog for GVSC
+1. *FOR SOME REASON WHEN USING ./SET_JACKAL_AS_ROS_MASTER.SH, the ROS environment VARIABLES ARE NOT STICKING*. HOWEVER, IT WORKS WHEN USING SOURCE SET_JACKAL_...
+2. Turn on jackal.
+3. Enable the autec safety. 
+4. Enable motors on the Jackal HMI panel.
+5. [Remote PC] Turn off your VPN session.
+6. [Remote PC] Disable your firewall:
+   - =sudo ufw disable=. 
+7. Turn on GVSC TP-Link router.
+8. [Remote PC] Hardwire into the optitrack router and configure your hard-wired setting. I've set a static IP on the optitrack network to =192.168.0.51=.
+9. [Remote PC] Connect wirelessly to the =TP-Link_8494_5G= network.
+10. [Remote PC] SSH into the Jackal PC:
+    - =ssh administrator@192.168.4.231=
+11. [Jackal SSH] Set ROS_MASTER_URI and ROS_IP:
+    - =./wireless_remote_kimcd1.sh=.
+12. [Jackal SSH] Check time offset between Remote PC (time server), and the Jackal PC: 
+    - =ntpdate -q 192.168.4.203=
+    - Note: the offset should be less than 0.05 sec. 
+13. [Jackal SSH] Launch the Jackal node:
+    - =roslaunch jackal_base base.launch=
+    - Note: all lights on the HMI should be green. 
+14. [Remote PC] In a new terminal, set the ROS environment variables:
+    - =~/Documents/gvsc/jackal_0619/scripts/ros_env_wireless_jackal.sh=
+15. [Remote PC] Launch the =vrpn_client= node:
+    - =roslaunch vrpn_client_ros j100_0619.launch=
+    - Note: The optitrack computer is on =192.168.0.100=. The ``server'' argument must be set to this value. 
+16. [Remote PC] In a new terminal, set the ROS environment variables:
+    - =~/Documents/gvsc/jackal_0619/scripts/ros_env_wireless_jackal.sh=
+17. Configure Motive:
+    1. Activate the checkbox =Broadcast Frame Data= in the =VRPN Streaming Engine= group. Set the =VRPN Broadcast Port= if necessary (default: 3883). 
+18. [Remote PC] Launch the jackal command:
+19. 
+
+* This is an example of something else I might be doing on a typical day like working out how the VMS Mobility system works
+=controller.cpp= is a nodelet that provides multiple plugins for various drive modes. The =update= method performs the following task:
+  1. The =controller= object has a =UpdateTimerCallback=, which is refreshed every 1/update_rate_hz seconds. The callback executes method =Update(dt)=, which obtains the vehicle's current velocity and calculates the command inputs: speed, yaw_rate and curvature
+     - speed_cmd_ :: it updates speed command by calling on the calculateSpeedCommand method of the speed_command_module
+     - yaw_rate_cmd_ :: it updates yaw command by calling on the calculateYawRateCommand method of the yaw_command_module by passing in the speed_cmd_ (though since we are NOT in yaw control mode, it will return 0.0)
+     - curvature_cmd_ :: it updates curvature command by calling on the calculateCurvatureCommand method of the curvature_command_module_ and pasing speed_cmd_, yaw_rate_ and velocity.
+  2. After computing the values above, it updates the yaw rate with ``one based on speed and curvature if not doing yaw rate control. This is so skid-steer vehicles don't have to do this conversion themselves''. What's happening here is that IF there is a control message AND the control message is NOT in yaw_rate_control mode (?), it will compute a yaw_rate_cmd_, which is the product of curvature_cmd_ and velocity. That means the commanded yaw rate is the yaw rate that would arise from the commanded curvature and the current velocity. Why the current velocity and not the new speed? It is actually the new speed. 
+  3. Note that if you are not using yaw rate control (for Jackal-I think), the cmd_curvature is simply the curvature in the control msg. If you are using yaw rate control, the curvature command module computes the cmd_curvature by taking yaw_command/velocity. This means it takes the NEW yaw_command (NEW means it's the desired yaw from the planner)and divides by the current velocity. Meaning it will operate with the same instantaneous linear velocity and update the yaw. Because the yaw is updated and linear velocity is kept the same, I suspect this is why it's called ``yaw rate control''. 
+  4. The =control_msg_= comes from a teleop node or from the planner. It is a MotionControl.msg type with the following fields: 
+     - float32 speed :: in m/s. Must always be positive.
+     - float32 curvature :: # in 1/meters, positive to the left
+     - float32 yaw_rate :: in radians/sec, positive to the left
+     - bool yaw_rate_control :: If true then using yaw rate for control instead of curvature
+     - bool :: 
+
+* NREC Interview
+** About you
+- These days I've been wearing multiple hats, at hours outside of Monday through Friday 9-5, I'm a graduate student completing my research in Additive Manufacturing with Robotic Manipulators at the Johns Hopkins University. During the workday at the Johns Hopkins Applied Physics Lab, I split my time as a robotics engineer working on both software and hardware for an autonomous ground vehicle system and as an Electronics Packaging Engineer within our Space Department. You may have heard of one of our recent projects: DART, which was completely home-grown within APL. I designed the image sensor, which took images of Dimorphos. 
+- Jumping back on how I got here: 
+- I studied Mechanical Engineering at the University of Maryland and graduated with a Bachelor's in 2010. Subsequently, I worked at NASA Goddard for 6 years as an aerospace engineer where I developed a broad array of skills in areas of mechanical analysis, design and, towards the end, got a taste in program leadership. NASA GSFC is obviously very much focused in Aerospace and Space Robotics as just a small portion of Goddard's focus and  certainly not one of it's highest priorities. So having the intenion of moving into Robotics, 5 years ago I joined the applied physics lab. As a UARC, APL is really supportive with employees pursuing advanced degrees, so I applied and was accepted to Johns Hopkins Professional Master's program. Traditionally, the program is 10 courses, but I wanted to do actual Robotics Research, so I found a professor who's doing fascinating research in Robotic Manipulators who agreed to take me on as a mentee. I went to the Johns Hopkins department chair to develop a path for students who wanted the full master's research experience and designed a Research Option. 
+- A little over a year ago, I was fortunate enough to be able to find an opening with the Robotics Department at APL and have been working on Autonomous Ground Vehicles since. 
+- Now, I'm writing my final section from completing my Thesis and thinking about my future in Robotics. I'd like to be contributing to the most challenging problems in Robotics and learning from some of the best and I know that CMU is working on that. 
+** Interview notes 
+- NREC is part of RI at CMU
+- 6 miles away from CMU
+- 90,000 sq ft. facility 
+- Sponsored projects
+- 150-160 people
+- 20 days a year
+  - 3 are floaters
+- major US holidays off, juneteenth off
+- winter break xmas and nye everything closes
+- work-lifestyle balance
+- ups and downs over the years
+- Interview
+  - recruiter
+  - Diane Orion schedules
+  - Technical Phone Interview one of the Robot Engineers Technical (software, robotics)
+    - No coding tests
+    - No studying. You either know or you don't. 
+  - Paired Interview (two people) - more deeper questions
+    - My chance to ask questions. Day in life of NREC engineer
+  - They bring me to Pittsburgh
+    - see robots, meet people 
+  - All this could be 3-4 weeks, probably won't happen until January
+- Compensation
+  - Cost of living in Pittsburgh is lower than in Maryland
+  - Non-profit
+  - Competitive, 8% compensation of salary goes to investment.
+  - Tuition remission - take classes at CMU
+- NREC cmu.edu/hr/benefits
+  - Lawrenceville 1-2K/month rent
+  - Suburbs (30-45 min to get in)
+  - Bus service for CMU employee
+- Hearing back from Diane 

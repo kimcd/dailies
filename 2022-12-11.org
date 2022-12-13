@@ -1,0 +1,60 @@
+:PROPERTIES:
+:ID:       b4642972-a1dd-428a-b2a7-c3d2d38d26fa
+:END:
+#+title: 2022-12-11
+#+author: Chris Kim
+#+EXPORT_FILE_NAME: test
+#+SETUPFILE: ~/org-roam/my_standard_latex_export.org
+
+  #+LaTeX: \newpage
+* Chapter 1
+In order to quantify the efficacy of our path planner, we compute the intersections between our path planner and the print object. The print paths are given by a set of cartesian points in \mathbb{R}^{3}. In order to compute the intersections of a point in a 3D object, we must voxelize the object. However, in order to voxelize the object, one must be able to determine whether a voxel vertex resides within the object. Because the object is non-convex, we first decompose the object into a collection of convex polygons using V-HACD. Subsequently, we take each polygon face in Hessian Normal form and determine if a voxel vertex resides within the half-space. For a voxel whose 8 vertices reside within the negative half-space if a convex polygon, we say that the voxel resides within the object. Finally, we can find the intersections between the print paths and the voxelized print object. Subsequently, we can quantify the overlap.
+In figure
+
+$$\hat{\textbf{n}} \cdot \textbf{x} = -p$$
+
+$$D = \hat{\textbf{n}} \cdot \textbf{v}_{i} + p$$
+
+In figure [[fig:vectorfig]], we see the exact decomposition of the print object into a collection of convex polygons using V-HACD. Note that the decomposition is imperfect at the blends between the shaft and the fins, which we'll see later in the section. 
+
+#+CAPTION: Exact decomposition of print object into convex polygons using V-HACD.  
+#+NAME: fig:vectorfig
+#+ATTR_LATEX: :width 0.9\textwidth :placement [!htb] 
+[[file:~/Downloads/vectorfig.pdf]]
+
+In figure, the green points represent the voxel centers of the voxels that have been intersected by the print path.  
+
+#+CAPTION: 
+#+NAME: fig:intersected
+#+ATTR_LATEX: :width 0.9\textwidth :placement [!htb] 
+[[file:~/Downloads/intersected_voxels.PNG]]
+
+In figure [[fig:missing]], the red points represent the voxel center of the voxels that are not intersected by the print path. As mentioned, because of limitations, V-HACD produces convex polygons at the transition from shaft to fin. 
+
+#+CAPTION: Test caption
+#+NAME: fig:missing
+#+ATTR_LATEX: :width 0.9\textwidth :placement [!htb] 
+[[file:~/Downloads/missing.pdf]]
+
+Otherwise, we say that the printer does a good job. The only region where the print object does not 
+
+obj is the set of convex polygons, P_i, where each P_i
+$obj = {}$
+
+$$\mathcal{D} =& \{\{x,y\}\in\mathbb{R}^2:\\\nonumber & x^2\!+(y-r)^2\le a_i-a_j-\sqrt{a_k^2+(d_m+d_n)^2}\},$$
+
+Object is the set of convex polygons. 
+$$obj =& \{P_i}:P_i is a convex polygon$$
+
+The convex polygons are voxelized, such that all vertices of the voxel intersect in a convex polygon.
+
+#+begin_eqn
+#+name: eqn:1
+$$obj =& \{P_i\}$$
+#+end_eqn 
+
+
+
+#+LATEX: \newpage
+
+
