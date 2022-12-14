@@ -1,3 +1,9 @@
-*.*
-!.gitignore
-!.org
+#*.*
+#!.gitignore
+#!.org
+*.pdf
+*.swp
+*.tex
+*.bbl
+*.lof
+*.lot

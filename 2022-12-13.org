@@ -1,0 +1,41 @@
+:PROPERTIES:
+:ID:       b758705a-ad03-483d-8b2d-9f3021b37318
+:END:
+#+title: 2022-12-13
+#+filetags: dailies
+#+startup: overview
+#+setupfile: ~/org-roam/my_standard_latex_export.org
+#+latex: \newpage
+
+* org-roam workflow
+1. Create a journal entry.
+   - Daily template includes preamble for \LaTeX generation. 
+2. At the end of the day, review the day's notes and refile appropriately based on the type of information: 
+   a. to do item - goes to the agenda dump 
+   b. brain-dump - create a new roam-node 
+   c. \LaTeX report - if it's part of something that's going to become a report, refile it accordingly 
+   d. meeting notes - goes to meeting notes?
+   e. what else?
+   f. if it doesn't fit in any of the above - leave it in the journal?
+   g. 
+3. Push to git remote. 
+
+** workflow rules/principles
+1. When refiling, [[https://orgmode.org/manual/Refile-and-Copy.html][refile and copy]] (C-c M-w) +do not delete the original off the daily journal+ consider deleting dailies as they have been refiled. 
+2. When dynamically taking notes, it's disruptive to stop and think about note organization. This workflow leaves the organization as a separate exercise AFTER work has been done.
+3. 
+
+** examples
+1. https://blog.laurentcharignon.com/post/org-roam/ - this guy uses the same approach as you. However, he deletes daily notes as they are refiled. 
+2. 
+
+** issues
+1. If we delete daily notes as they are refiled, that implies every note ultimately belongs somewhere. Does is it make sense in your workflow to have a permanent note for everything? For example, GVSC is a big project with lots of tasks and notes. If all GVSC notes went into a GVSC file, it would get unmanageable. 
+2. What if a task takes multiple days and I want to continue notes from the previous day? Just cut and paste the tree into the latest day. 
+*
+
+* made a change
+kas;ldjf a
+asldkjfa s
+dfajsdf
+ 

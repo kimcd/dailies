@@ -1,0 +1,10 @@
+:PROPERTIES:
+:ID:       f9e3d411-6e0d-4dcf-b4b0-e7f90ac7b35b
+:END:
+#+title: 2022-12-14
+#+filetags:dailies
+#+startup: overview
+#+setupfile: ~/org-roam/my_standard_latex_export.org
+#+latex: \newpage
+
+* lakjsd 
