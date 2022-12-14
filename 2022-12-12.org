@@ -6,16 +6,6 @@
 #+setupfile: ~/org-roam/my_standard_latex_export.org
 #+latex: \newpage 
 
-* org-roam workflow
-1. Create a journal entry.
-   - Daily template includes preamble for \LaTeX generation. 
-2. At the end of the day, review the day's notes and refile appropriately: 
-   a. to do item
-   b. brain-dump
-   c. \LaTeX report
-   d. 
-3. Push to git remote. 
-
 * Thesis Results Section 
 Working on the thesis results section. [[id:b4642972-a1dd-428a-b2a7-c3d2d38d26fa][2022-12-11]]. 
 
