@@ -1,0 +1,17 @@
+:PROPERTIES:
+:ID:       f6f71f43-6216-448f-ac3a-131633e2ae0d
+:END:
+#+title: 2022-12-15
+#+filetags:dailies
+#+startup: overview
+#+setupfile: ~/org-roam/my_standard_latex_export.org
+#+latex: \newpage
+
+* Amelia set up meeting about Laser Range Finder
+* Paper is due on Monday
+* Justin setup meeting for tmrw
+* Caitlin says we can't plate heat straps post-assembly. They must be plated before hand 
+* Inspection meeting?
+* Shims
+* David Napollilo wants to rotate
+* Motor controller board had a meeting 

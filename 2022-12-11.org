@@ -42,7 +42,7 @@ $obj = {}$
 
 $$\mathcal{D} =& \{\{x,y\}\in\mathbb{R}^2:\\\nonumber & x^2\!+(y-r)^2\le a_i-a_j-\sqrt{a_k^2+(d_m+d_n)^2}\},$$
 
-Object is the set of convex polygons. 
+An object is the set of convex polygons: 
 $$obj =& \{P_i}:P_i is a convex polygon$$
 
 The convex polygons are voxelized, such that all vertices of the voxel intersect in a convex polygon.
