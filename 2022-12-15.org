@@ -9,9 +9,54 @@
 
 * Amelia set up meeting about Laser Range Finder
 * Paper is due on Monday
+- 12/192022 :: draft submission
+- 3/6/2023 :: final paper submission
+- 4/3/2023 :: author registration
+- 5/30/2023 - 6/2/2023 :: conference  
+** Work breakdown
+1. 
+2. Pressure-paper thermotron testing
+3. Optimizations from 
+4. Design Assumptions
+   - Therm-a-wick
+   - 
+5. 
 * Justin setup meeting for tmrw
 * Caitlin says we can't plate heat straps post-assembly. They must be plated before hand 
-* Inspection meeting?
-* Shims
-* David Napollilo wants to rotate
-* Motor controller board had a meeting 
+- Allie says that TAI wants to get the heat straps done by February and that this version will not be plated. However, TAI says plating will not be an issue except that they may have to go out-of-house 
+* How did inspection meeting?
+- circle back with Tim. Allie says convo went well. Danny will change the way they inspect so we can get the data we want 
+* Shims 
+* Motor controller board had a meeting reach out to Kurt Smithgall 
+* Need to track Box fastener list and UTI order 
+* Mag Heli-coil discussion at Section Meeting 
+- what is Titanium fastener Uti? 150Ksi (min UTS) by UTI 
+- what is shear strength of parent material Mg Zk60A-T5 is 23900 psi
+- in nearly all cases, we would exceed strenght of fastener 
+
+** bolt data
+ |     |   A_t | UTS [psi] | UTS [lbs] |
+ |-----+-------+-----------+-----------|
+ | #2  | 0.003 |    150000 |      450. |
+ | #4  |  .006 |    150000 |      900. |
+ | #6  |  .009 |    150000 |     1350. |
+ | #8  |  .014 |    150000 |     2100. |
+ | #10 |  .017 |    150000 |     2550. |
+ #+TBLFM: $4=$3*$2
+
+ Assume that the 2-56 screw is known to be 125,000 psi ultimate tensile strength and the parent material
+ is 356-T6 Aluminum of shear strength 26,000 psi. What insert length is required? Starting at the right
+ side at 125,000 psi level more horizontally to the left to the point of intersection with the vertical line at
+ 26,000 psi of the parent material shown on the bottom of the graph. The 1 Diameter rating of 400 lbs is
+ not strong enough to support the full tensile rating of the screw which is 460 lbs. In this material, the
+ 1 1/2 diameter insert achieves a tensile strength of 700 lbs and if adequate material thickness is available,
+ this is the insert which should be used to provide a generous safety margin.
+
+ For IEM we have qty 20x #10-32 at for S/C-to-box fasteners.
+ | qty | mass [lbs] |  G | mass [lbs] G | load/fastener [lbs] |
+ |-----+------------+----+--------------+---------------------|
+ |  15 |         30 | 30 |          900 |                  60 |
+ #+TBLFM: $4=$2*$3::$5=$4/$1
+
+* David Napollilo wants to rotate copper heat straps about 135 deg 
+- good Allie is handling 
