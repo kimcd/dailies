@@ -1,0 +1,78 @@
+:PROPERTIES:
+:ID:       6772f9a6-fb15-4899-865a-3c2dbadd5759
+:END:
+#+title: 2022-12-16
+#+filetags:dailies
+#+startup: overview
+#+setupfile: ~/org-roam/my_standard_latex_export.org
+#+latex: \newpage
+
+* TODO ask Mihaela about PP definition 
+* Amelia set up meeting about Laser Range Finder
+* Work on paper
+* Work on debugging Jackal 
+* DF Gimbal Drive Electronics Thermal Trim Device Control and KO meeting slides from Kurt
+** H/W Tree 
+Gimbal Drive Electronics will house both
+├ Medium Gain Antenna (MGA) Azimuth Gimbal Drive Electronics (MGA Az GDE)
+├ High gain Antenna Elevation and Azimuth Gimbal Drive Electronics (HGA El & Ax GBE)
+
+Thermal Trim Device Controller TTDC
+* Jackal x RTK
+** Chrony 
+*** Chrony synch instructions TODO put this somewhere and make it neater... 
+There is a name clash between the GVSC TP-Link [192.168.0.1] and the Optitrack TP-Link [192.168.0.1]. I connected to the GVSC TP-LINK and accessed it via internet browser and changed the LAN setting so the address is now 192.168.4.1.
+Since DHCP is enabled, the Jackal is now assigned 192.168.4.231 and kimcd1-ll1 is now 192.168.4.203. 
+I have to now redo all the chrony stuff:
+1. [Jackal] sudo vim etc/chrony/chrony.conf with the following additions:
+   - local stratum 10
+   - allow <Client_PC_Static_IP> 
+   - server <Client_PC_Static_IP> minpoll 0 maxpoll 5 maxdelay .05
+2. [Jackal] update ~/wireless_remote_kimcd1.sh to update ROS_MASTER_URI and ROS_IP
+3. [Jackal] update /etc/hosts with the new IP address of the remote PC along with its hostname <kimcd1-ll1 static IP> kimcd1-ll1
+4. [Client PC] update wireless_remote_jackal.sh to update ROS_MASTER_URI and ROS_IP
+5. [Client PC] begin the chronyd service =sudo systemctl start chronyd.service=
+6. [Client PC] Update your =/etc/chrony/chrony.conf= file so you allow the correct network range that may recieve time synching requests from clients =allow 192.168.4.0/24=.
+7. [Client PC] restart the service to apply changes =sudo systemctl restart chrony=
+8. [Client PC] Connect to APL network and VPN in to update sources. I'm not entirely sure how often this has to happen.
+9. [Client PC] Run =chronyc sources= to update =chrony sources=. Note that all APL sources are now populated. 
+10. [Client PC] Close APL network connection and VPN.
+11. [Client PC] SSH into the Jackal
+12. [Jackal PC] run =ntpdate -q <Client_PC_Static_IP> (or =192.168.131.51= if wired), which should now successfully show syncing with the time server on the Client PC with an offset of less than 0.05s
+*** IF YOU ARE HAVING ISSUES GETTING JACKAL TO SYNCH < 0.05s
+Below <Client_PC_Static_IP> := =192.168.131.51=, which is PC's static IP when wired to Jackal.
+1. [Jackal PC] =sudo /etc/init.d/chrony stop=
+2. [Jackal PC] =sudo ntpdate <Client_PC_Static_IP>=
+3. [Jackal PC] =sudo /etc/init.d/chrony start=
+4. [Jackal PC] to verify that it is now working:
+   - =ntpdate -q <Client_PC_Static_IP>=
+** is IMU working with RTK?
+-  YES, in the Jackal's rtk_base.launch launch file, we remapped the imu_um7 topic name from imu/data to /localization/imu/raw
+** Errors & Warnings on Startup
+The following warnings and errors are thrown (in order). 
+*** Warning Speed inputs have timed out. 
+Triggered by =CheckRequiredSensorTimeouts()=. See error below (GPS may be missing). 
+*** ERROR blocking output velocity because required sensor input is missing
+This error is thrown when sensors are checked for validity. =CheckRequiredSensorTimeouts()= in =sumet_velocity3D_aggregator_nodelet= looks for valid linear velocity (wheel encoders and GPS speed). Assuming that our wheel encoder works, which it should, then it may be a GPS error.
+*** Warning waiting for vehicle dimensions. wheel slip compensation not operational 
+This is coming from the =sumet_velocity3D_aggregator_nodelet=, which is triggered when =track_width_= is < 0.0.
+We define vehicle dimensions in =jackal.launch= which is included as a =rosparam= when launching the =navigation.launch= file. It is also defined in =state_estimator.launch=, however, by default, it is set to -1.0 meters. I updated to 0.3765 meters per [[id:1c7ac57c-02a2-4493-9378-1572f004bd7e][jackal specs]]. This seems to have eliminated the warning.
+*** ERROR State estimator waiting for local origin 
+I should be able to solve this error along with the block output velocity error (assuming that's caused by GPS), by launching the origins.yaml. Why not working? See file description in =platform_common/launch/
+*** ERROR pitch and rollrates not valid error
+This is coming from the =sumet_velocity3D_aggregator_nodelet=, which is triggered when =roll_rate_cov= OR =pitch_rate_cov= are > 1e6.
+*** Copy error log from Docker Container to host
+1. [New terminal on your Host PC] =docker cp <container_name>:<path/to/file> <local/path/to/store/=. Example:
+   - =docker cp rtk_jackal:~/.ros/log/ceb3641a-7d56-11ed-b61c-7da0ce66848c/roslaunch-kimcd1-ll1-1822.log ~/Documents/gvsc/=
+Looking at the error log, all nodes have a ``Bond broken, exiting...'' info. I'm not sure if this happens because the XML-RPC calls this Or is this why there's an XML-RPC error?
+In my log file, it says that after odom_to_speed_node launches cleanly, it quickly is unregistered by the ProcessMonitor, is that normal?
+*** New approach
+In light of the previous sectoin that shows ProcessMonitor unregistering, I'm going to assume that the error is coming from the Autonomoy Mode manger, which is supported by the log file, which indicates that this is the first thing to die. Light sleuthing on the internet says that XMLRPC errors may originate if a ros parameter is not set. Looking at the Autonomy launch files, there's not many parameters that are fed in. 
+I'm going to start focusing on the Autonomy Mode Manager. 
+
+** Launch webui
+1. Create a new Docker instance:
+   - =docker exec --it rtk_jackal bash=
+2. Launch =sudo systemctl start nginex= 
+3. [Webrowser] =localhost=
+
