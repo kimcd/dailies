@@ -1,5 +1,5 @@
 # Ignore everything (works recursively, so valid files within subdirectories are ignored)
-*
+#*
 
 # But not these files...
 !.gitignore
